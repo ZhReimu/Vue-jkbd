@@ -33,70 +33,15 @@
 </template>
 
 <script setup lang="ts">
+import { getSubjects } from '../api/api';
 import { Subject } from '../types/x-exam';
-import { Modal } from 'ant-design-vue';
-import { createVNode } from 'vue';
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-
-enum SubjectType {
-    SELECTION = 0,
-    JUDGE = 1,
-    MULT_SELECTION = 2
-}
+import { SubjectType } from '../types/x-exam-enums'
+import { showConfirm, showInfo } from '../utils/dialogUtils';
 
 const emits = defineEmits(['changePic', 'changeSubject', 'onAnswerError'])
 const currentSubject = ref(0)
 const currentAnswer = ref('')
-const subjects: Subject[] = [
-    {
-        type: SubjectType.JUDGE,
-        title: '测试题目',
-        pic: 'https://sucimg.itc.cn/sblog/jdN42qbpXY1',
-        answers: [
-            {
-                id: '√',
-                value: '√',
-            },
-            {
-                id: '×',
-                value: '×',
-            }],
-        correct: '√'
-    },
-    {
-        type: SubjectType.SELECTION,
-        title: '测试题目 2',
-        answers: [
-            { id: 'A', value: '我是 A 答案嗷' },
-            { id: 'B', value: '我是 B 答案嗷' },
-            { id: 'C', value: '我是 C 答案嗷' },
-            { id: 'D', value: '我是 D 答案嗷' },
-        ],
-        correct: 'A'
-    },
-    {
-        type: SubjectType.SELECTION,
-        title: '测试题目 3',
-        answers: [
-            { id: 'A', value: '我是 A 答案嗷' },
-            { id: 'B', value: '我是 B 答案嗷' },
-            { id: 'C', value: '我是 C 答案嗷' },
-            { id: 'D', value: '我是 D 答案嗷' },
-        ],
-        correct: 'B'
-    },
-    {
-        type: SubjectType.SELECTION,
-        title: '测试题目 4',
-        answers: [
-            { id: 'A', value: '我是 A 答案嗷' },
-            { id: 'B', value: '我是 B 答案嗷' },
-            { id: 'C', value: '我是 C 答案嗷' },
-            { id: 'D', value: '我是 D 答案嗷' },
-        ],
-        correct: 'C'
-    }
-]
+const subjects = getSubjects()
 const subject = computed(() => {
     const subject = subjects[currentSubject.value]
     emits('changePic', subject.pic)
@@ -114,34 +59,10 @@ const changeSubject = (increment: number) => {
     currentSubject.value = Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
     currentAnswer.value = subject.value.yourAnswer || ''
     emits('changeSubject', currentSubject.value)
-    console.log('切换题目', currentSubject.value);
 }
 const countScores = () => subjects.reduce((prev: number, curr: Subject): number => {
     return prev += curr.yourAnswer == curr.correct ? 2 : 0
 }, 0)
-
-const showConfirm = (title: string, content: string, onOk = () => { }) => {
-    Modal.confirm({
-        title,
-        icon: createVNode(ExclamationCircleOutlined),
-        content: createVNode('div', { style: 'color:red;' }, content),
-        onOk() {
-            onOk()
-        }
-    });
-}
-
-const showInfo = (title: string, content: string, onOk = () => { }) => {
-    Modal.info({
-        title,
-        icon: createVNode(ExclamationCircleOutlined),
-        content: createVNode('div', { style: 'color:red;' }, content),
-        onOk() {
-            onOk()
-        }
-    });
-}
-
 const submitExam = () => {
     showConfirm('真的要交卷🐎?', '交卷之后不可作答', () => {
         showInfo('作答结束!', `您的成绩为 ${countScores()} 分, 满分 100 分, 90 分 及格`, () => window.location.reload())
