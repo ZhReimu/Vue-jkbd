@@ -20,8 +20,8 @@
             </div>
             <div class="operations">
                 <a-button type="primary">暂停</a-button>
-                <a-button type="primary" @click="changeSubject(-1)">上一题</a-button>
-                <a-button type="primary" @click="changeSubject(1)">下一题</a-button>
+                <a-button type="primary" :disabled="hasNext(-1)" @click="changeSubject(-1)">上一题</a-button>
+                <a-button type="primary" :disabled="hasNext(1)" @click="changeSubject(1)">下一题</a-button>
                 <a-button type="primary">交卷</a-button>
             </div>
         </div>
@@ -76,10 +76,13 @@ const subject = computed(() => {
     return subject
 })
 
+const hasNext = computed(() => {
+    return (increment: number) => currentSubject.value == Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
+})
+
 const changeSubject = (increment: number) => {
-    const { value } = currentSubject
     // currentSubject 不能小于 0, 不能大于 subjects.length
-    currentSubject.value = Math.max(0, Math.min(subjects.length - 1, value + increment))
+    currentSubject.value = Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
     emits('changeSubject', currentSubject.value)
     console.log('切换题目', currentSubject.value);
 }
