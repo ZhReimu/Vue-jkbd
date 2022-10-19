@@ -105,7 +105,8 @@ const disabled = computed(() => {
 const isCorrect = computed(() => (subject: Subject) => subject.yourAnswer == subject.correct)
 const changeSubject = (increment: number) => {
     subject.value.yourAnswer = currentAnswer.value
-    if (subject.value.yourAnswer && !(subject.value.yourAnswer == subject.value.correct)) emits('onAnswerError', currentSubject.value)
+    const question = subject.value
+    if (question.yourAnswer && !(question.yourAnswer == question.correct)) emits('onAnswerError', currentSubject.value)
     // currentSubject 不能小于 0, 不能大于 subjects.length
     currentSubject.value = Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
     currentAnswer.value = subject.value.yourAnswer || ''
