@@ -5,10 +5,10 @@
         <x-exam-info></x-exam-info>
       </a-layout-sider>
       <a-layout-content>
-        <x-exam-subject @changePic="changePic" @changeSubject="changeSubject"></x-exam-subject>
+        <x-exam-subject @changePic="changePic" @changeSubject="changeSubject" />
       </a-layout-content>
       <div theme="light">
-        <x-exam-board :currentSubject="currentSubject"></x-exam-board>
+        <x-exam-board :currentSubject="currentSubject" />
       </div>
     </a-layout>
     <a-layout>
@@ -20,12 +20,14 @@
 <script setup lang="ts">
 const src = ref('')
 const currentSubject = ref(0)
+
 const changePic = (e: string) => {
   src.value = e
 }
 const changeSubject = (e: number) => {
   currentSubject.value = e
 }
+
 </script>
 
 <style scoped>

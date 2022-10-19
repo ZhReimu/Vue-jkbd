@@ -28,7 +28,9 @@ const numbers = computed(() => {
 })
 
 const cellClass = computed(() => {
-    return (cellId: Number) => 'cell ' + (props.currentSubject + 1 == cellId ? 'current' : '')
+    const currentId = props.currentSubject + 1
+    // 基础的 cell 样式 + 当前正在答的题目的样式
+    return (cellId: Number) => 'cell ' + (currentId == cellId ? 'current ' : '')
 })
 
 </script>
@@ -47,6 +49,10 @@ const cellClass = computed(() => {
     width: 34px;
     height: 34px;
     border: 1px solid;
+}
+
+.error {
+    background-color: red;
 }
 
 .answer-board {
