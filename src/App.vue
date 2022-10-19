@@ -1,24 +1,28 @@
 <template>
-  <a-layout>
+  <a-config-provider :locale="zhCN">
     <a-layout>
-      <a-layout-sider theme="light" :width="240">
-        <x-exam-info @onFinish="onFinish" />
-      </a-layout-sider>
-      <a-layout-content>
-        <x-exam-subject ref="exam" @changePic="changePic" @changeSubject="changeSubject"
-          @onAnswerError="onAnswerError" />
-      </a-layout-content>
-      <div theme="light">
-        <x-exam-board :currentSubject="currentSubject" :errorSubjects="errorSubjects" />
-      </div>
+      <a-layout>
+        <a-layout-sider theme="light" :width="240">
+          <x-exam-info @onFinish="onFinish" />
+        </a-layout-sider>
+        <a-layout-content>
+          <x-exam-subject ref="exam" @changePic="changePic" @changeSubject="changeSubject"
+            @onAnswerError="onAnswerError" />
+        </a-layout-content>
+        <div theme="light">
+          <x-exam-board :currentSubject="currentSubject" :errorSubjects="errorSubjects" />
+        </div>
+      </a-layout>
+      <a-layout>
+        <x-exam-pic :src="src"></x-exam-pic>
+      </a-layout>
     </a-layout>
-    <a-layout>
-      <x-exam-pic :src="src"></x-exam-pic>
-    </a-layout>
-  </a-layout>
+  </a-config-provider>
 </template>
 
 <script setup lang="ts">
+import zhCN from 'ant-design-vue/es/locale/zh_CN';
+
 const src = ref('')
 const currentSubject = ref(0)
 const errorSubjects = ref<number[]>([])
