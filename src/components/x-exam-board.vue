@@ -5,7 +5,7 @@
         </div>
         <div class="answer-board">
             <a-row align="center" v-for="i in 5">
-                <a-col :class="cellClass(i*j)" v-for="j in 10" :span="2">{{i*j}}
+                <a-col :class="cellClass(numbers(i,j))" v-for="j in 10" :span="2">{{numbers(i,j)}}
                 </a-col>
             </a-row>
         </div>
@@ -13,10 +13,17 @@
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps({
     currentSubject: {
         type: Number,
         required: true
+    }
+})
+
+const numbers = computed(() => {
+    return (i: number, j: number) => {
+        return (i - 1) * 10 + j
     }
 })
 
