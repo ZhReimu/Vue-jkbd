@@ -1,0 +1,125 @@
+<template>
+    <a-card class="exam-subject">
+        <div class="header">
+            考试题目
+        </div>
+        <div class="subject">
+            <div class="subject-title">{{`${currentSubject}. ${subject.title}`}}</div>
+            <div class="selections">
+                <div v-if="subject.type === SubjectType.SELECTION" v-for="answer in subject.answers" :key="answer.id">
+                    {{getAnswer(answer)}}
+                </div>
+            </div>
+            <div class="result">
+                <div>您的答案</div>
+                <div class="selection">
+                    <span style="margin-right: 10px;">选择: </span>
+                    <a-button v-for="answer in subject.answers" :key="answer.id" type="primary">{{answer.value}}
+                    </a-button>
+                </div>
+            </div>
+            <div class="operations">
+                <a-button type="primary">暂停</a-button>
+                <a-button type="primary" @click="changeSubject(-1)">上一题</a-button>
+                <a-button type="primary" @click="changeSubject(1)">下一题</a-button>
+                <a-button type="primary">交卷</a-button>
+            </div>
+        </div>
+    </a-card>
+</template>
+
+<script setup lang="ts">
+
+const emits = defineEmits(['changePic', 'changeSubject'])
+
+enum SubjectType {
+    SELECTION,
+    JUDGE,
+    MULT_SELECTION
+}
+const subjects = [
+    {
+        type: SubjectType.JUDGE,
+        title: '测试题目',
+        pic: 'https://sucimg.itc.cn/sblog/jdN42qbpXY1',
+        answers: [
+            {
+                id: 0,
+                value: '√',
+            },
+            {
+                id: 0,
+                value: '×',
+            }],
+        correct: {
+            id: 0
+        }
+    },
+    {
+        type: SubjectType.SELECTION,
+        title: '测试题目 2',
+        pic: 'https://sucimg.itc.cn/sblog/jdN42qbpXY1',
+        answers: [
+            { id: 0, value: '我是 A 答案嗷' },
+            { id: 1, value: '我是 B 答案嗷' },
+            { id: 2, value: '我是 C 答案嗷' },
+            { id: 3, value: '我是 D 答案嗷' },
+        ],
+        correct: {
+            id: 0
+        }
+    }
+]
+const currentSubject = ref(0)
+const subject = computed(() => {
+    const subject = subjects[currentSubject.value]
+    if (subject.pic) emits('changePic', subject.pic)
+    return subject
+})
+
+const changeSubject = (increment: number) => {
+    const { value } = currentSubject
+    // currentSubject 不能小于 0, 不能大于 subjects.length
+    currentSubject.value = Math.max(0, Math.min(subjects.length - 1, value + increment))
+    emits('changeSubject', currentSubject.value)
+    console.log('切换题目', currentSubject.value);
+}
+
+const getAnswer = computed(() => {
+    return (answer) => `${String.fromCodePoint(answer.id + 65)}. ${answer.value}`
+})
+
+</script>
+
+<style scoped>
+.exam-subject {
+    height: 100%;
+}
+
+.selections {
+    margin-top: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    min-height: 250px;
+}
+
+.operations {
+    display: flex;
+    justify-content: end;
+}
+
+.ant-btn {
+    margin-right: 10px;
+}
+
+.result {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.subject-title {
+    font-size: 26px;
+    font-weight: bold;
+}
+</style>

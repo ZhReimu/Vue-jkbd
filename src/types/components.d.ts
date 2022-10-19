@@ -8,5 +8,10 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
+    XExamBoard: typeof import('./../components/x-exam-board.vue')['default']
+    XExamInfo: typeof import('./../components/x-exam-info.vue')['default']
+    XExamPic: typeof import('./../components/x-exam-pic.vue')['default']
+    XExamSubject: typeof import('./../components/x-exam-subject.vue')['default']
+    XLeftSider: typeof import('./../components/x-left-sider.vue')['default']
   }
 }
