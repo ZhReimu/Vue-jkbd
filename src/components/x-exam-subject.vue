@@ -4,17 +4,17 @@
             考试题目
         </div>
         <div class="subject">
-            <div class="subject-title">{{`${currentSubject}. ${subject.title}`}}</div>
+            <div class="subject-title">{{`${currentSubject + 1}. ${subject.title}`}}</div>
             <div class="selections">
                 <div v-if="subject.type === SubjectType.SELECTION" v-for="answer in subject.answers" :key="answer.id">
-                    {{getAnswer(answer)}}
+                    {{`${answer.id}. ${answer.value}`}}
                 </div>
             </div>
             <div class="result">
                 <div>您的答案</div>
                 <div class="selection">
                     <span style="margin-right: 10px;">选择: </span>
-                    <a-button v-for="answer in subject.answers" :key="answer.id" type="primary">{{answer.value}}
+                    <a-button v-for="answer in subject.answers" :key="answer.id" type="primary">{{answer.id}}
                     </a-button>
                 </div>
             </div>
@@ -29,47 +29,46 @@
 </template>
 
 <script setup lang="ts">
+import { Subject } from '../types/x-exam';
+
+enum SubjectType {
+    SELECTION = 0,
+    JUDGE = 1,
+    MULT_SELECTION = 2
+}
 
 const emits = defineEmits(['changePic', 'changeSubject'])
 
-enum SubjectType {
-    SELECTION,
-    JUDGE,
-    MULT_SELECTION
-}
-const subjects = [
+const subjects: Subject[] = [
     {
         type: SubjectType.JUDGE,
         title: '测试题目',
         pic: 'https://sucimg.itc.cn/sblog/jdN42qbpXY1',
         answers: [
             {
-                id: 0,
+                id: '√',
                 value: '√',
             },
             {
-                id: 0,
+                id: '×',
                 value: '×',
             }],
-        correct: {
-            id: 0
-        }
+        correct: '√'
     },
     {
         type: SubjectType.SELECTION,
         title: '测试题目 2',
         pic: 'https://sucimg.itc.cn/sblog/jdN42qbpXY1',
         answers: [
-            { id: 0, value: '我是 A 答案嗷' },
-            { id: 1, value: '我是 B 答案嗷' },
-            { id: 2, value: '我是 C 答案嗷' },
-            { id: 3, value: '我是 D 答案嗷' },
+            { id: 'A', value: '我是 A 答案嗷' },
+            { id: 'B', value: '我是 B 答案嗷' },
+            { id: 'C', value: '我是 C 答案嗷' },
+            { id: 'D', value: '我是 D 答案嗷' },
         ],
-        correct: {
-            id: 0
-        }
+        correct: 'A'
     }
 ]
+
 const currentSubject = ref(0)
 const subject = computed(() => {
     const subject = subjects[currentSubject.value]
@@ -84,10 +83,6 @@ const changeSubject = (increment: number) => {
     emits('changeSubject', currentSubject.value)
     console.log('切换题目', currentSubject.value);
 }
-
-const getAnswer = computed(() => {
-    return (answer) => `${String.fromCodePoint(answer.id + 65)}. ${answer.value}`
-})
 
 </script>
 
