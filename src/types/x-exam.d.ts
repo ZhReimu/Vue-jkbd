@@ -8,7 +8,8 @@ interface Subject {
     title: string
     pic?: string
     answers: Answer[]
-    correct: string
+    correct: string,
+    yourAnswer?: string
 }
 
 export type {

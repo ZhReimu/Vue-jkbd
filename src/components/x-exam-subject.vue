@@ -12,11 +12,14 @@
             </div>
             <div class="result">
                 <div class="your-answer">您的答案: {{currentAnswer}}</div>
-                <div class="selection">
+                <div class="selection" v-if="!subject.yourAnswer">
                     <span style="margin-right: 10px;">选择: </span>
                     <a-button v-for="answer in subject.answers" :key="answer.id" type="primary"
                         @click="currentAnswer=answer.id">{{answer.id}}
                     </a-button>
+                </div>
+                <div :class="'result-hint ' + (isCorrect(subject) ? '' : 'error-hint')" v-else>
+                    {{ isCorrect(subject) ? '回答正确' : '回答错误'}}
                 </div>
             </div>
             <div class="operations">
@@ -77,10 +80,12 @@ const subject = computed(() => {
 const disabled = computed(() => {
     return (increment: number) => currentSubject.value == Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
 })
+const isCorrect = computed(() => (subject: Subject) => subject.yourAnswer == subject.correct)
 const changeSubject = (increment: number) => {
-    currentAnswer.value = ''
+    subject.value.yourAnswer = currentAnswer.value
     // currentSubject 不能小于 0, 不能大于 subjects.length
     currentSubject.value = Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
+    currentAnswer.value = subject.value.yourAnswer || ''
     emits('changeSubject', currentSubject.value)
     console.log('切换题目', currentSubject.value);
 }
@@ -115,8 +120,13 @@ const changeSubject = (increment: number) => {
 }
 
 .subject-title,
-.your-answer {
+.your-answer,
+.result-hint {
     font-size: 26px;
     font-weight: bold;
+}
+
+.error-hint {
+    color: red;
 }
 </style>
