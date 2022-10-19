@@ -18,6 +18,10 @@ const props = defineProps({
     currentSubject: {
         type: Number,
         required: true
+    },
+    errorSubjects: {
+        type: Array<Number>,
+        require: true
     }
 })
 
@@ -29,8 +33,15 @@ const numbers = computed(() => {
 
 const cellClass = computed(() => {
     const currentId = props.currentSubject + 1
-    // 基础的 cell 样式 + 当前正在答的题目的样式
-    return (cellId: Number) => 'cell ' + (currentId == cellId ? 'current ' : '')
+    console.log('计算样式', currentId);
+    return (cellId: Number) => {
+        // 基础的 cell 样式
+        var css = 'cell '
+        //当前正在答的题目的样式
+        if (currentId == cellId) css += 'current '
+        if (props.errorSubjects.includes(cellId) && currentId != cellId) css += 'error '
+        return css
+    }
 })
 
 </script>

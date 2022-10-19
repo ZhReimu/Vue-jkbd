@@ -41,7 +41,7 @@ enum SubjectType {
     MULT_SELECTION = 2
 }
 
-const emits = defineEmits(['changePic', 'changeSubject'])
+const emits = defineEmits(['changePic', 'changeSubject', 'onAnswerError'])
 const currentSubject = ref(0)
 const currentAnswer = ref('')
 const subjects: Subject[] = [
@@ -70,6 +70,28 @@ const subjects: Subject[] = [
             { id: 'D', value: '我是 D 答案嗷' },
         ],
         correct: 'A'
+    },
+    {
+        type: SubjectType.SELECTION,
+        title: '测试题目 3',
+        answers: [
+            { id: 'A', value: '我是 A 答案嗷' },
+            { id: 'B', value: '我是 B 答案嗷' },
+            { id: 'C', value: '我是 C 答案嗷' },
+            { id: 'D', value: '我是 D 答案嗷' },
+        ],
+        correct: 'B'
+    },
+    {
+        type: SubjectType.SELECTION,
+        title: '测试题目 4',
+        answers: [
+            { id: 'A', value: '我是 A 答案嗷' },
+            { id: 'B', value: '我是 B 答案嗷' },
+            { id: 'C', value: '我是 C 答案嗷' },
+            { id: 'D', value: '我是 D 答案嗷' },
+        ],
+        correct: 'C'
     }
 ]
 const subject = computed(() => {
@@ -83,6 +105,7 @@ const disabled = computed(() => {
 const isCorrect = computed(() => (subject: Subject) => subject.yourAnswer == subject.correct)
 const changeSubject = (increment: number) => {
     subject.value.yourAnswer = currentAnswer.value
+    if (subject.value.yourAnswer && !(subject.value.yourAnswer == subject.value.correct)) emits('onAnswerError', currentSubject.value)
     // currentSubject 不能小于 0, 不能大于 subjects.length
     currentSubject.value = Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
     currentAnswer.value = subject.value.yourAnswer || ''
@@ -116,7 +139,7 @@ const changeSubject = (increment: number) => {
 .result {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 70px;
 }
 
 .subject-title,
