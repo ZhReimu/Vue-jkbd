@@ -33,12 +33,12 @@ const numbers = computed(() => {
 
 const cellClass = computed(() => {
     const currentId = props.currentSubject + 1
-    console.log('计算样式', currentId);
     return (cellId: Number) => {
         // 基础的 cell 样式
         var css = 'cell '
         //当前正在答的题目的样式
         if (currentId == cellId) css += 'current '
+        // @ts-ignore
         if (props.errorSubjects.includes(cellId) && currentId != cellId) css += 'error '
         return css
     }

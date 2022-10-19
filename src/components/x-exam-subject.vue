@@ -26,7 +26,7 @@
                 <a-button type="primary">暂停</a-button>
                 <a-button type="primary" :disabled="disabled(-1)" @click="changeSubject(-1)">上一题</a-button>
                 <a-button type="primary" :disabled="disabled(1)" @click="changeSubject(1)">下一题</a-button>
-                <a-button type="primary">交卷</a-button>
+                <a-button type="primary" @click="submitExam">交卷</a-button>
             </div>
         </div>
     </a-card>
@@ -34,6 +34,9 @@
 
 <script setup lang="ts">
 import { Subject } from '../types/x-exam';
+import { Modal } from 'ant-design-vue';
+import { createVNode } from 'vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
 enum SubjectType {
     SELECTION = 0,
@@ -113,7 +116,38 @@ const changeSubject = (increment: number) => {
     emits('changeSubject', currentSubject.value)
     console.log('切换题目', currentSubject.value);
 }
+const countScores = () => subjects.reduce((prev: number, curr: Subject): number => {
+    return prev += curr.yourAnswer == curr.correct ? 2 : 0
+}, 0)
 
+const showConfirm = (title: string, content: string, onOk = () => { }) => {
+    Modal.confirm({
+        title,
+        icon: createVNode(ExclamationCircleOutlined),
+        content: createVNode('div', { style: 'color:red;' }, content),
+        onOk() {
+            onOk()
+        }
+    });
+}
+
+const showInfo = (title: string, content: string, onOk = () => { }) => {
+    Modal.info({
+        title,
+        icon: createVNode(ExclamationCircleOutlined),
+        content: createVNode('div', { style: 'color:red;' }, content),
+        onOk() {
+            onOk()
+        }
+    });
+}
+
+const submitExam = () => {
+    showConfirm('真的要交卷🐎?', '交卷之后不可作答', () => {
+        showInfo('作答结束!', `您的成绩为 ${countScores()} 分, 满分 100 分, 90 分 及格`, () => window.location.reload())
+    })
+}
+defineExpose({ submitExam })
 </script>
 
 <style scoped>

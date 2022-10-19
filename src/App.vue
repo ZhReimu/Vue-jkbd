@@ -5,7 +5,8 @@
         <x-exam-info @onFinish="onFinish" />
       </a-layout-sider>
       <a-layout-content>
-        <x-exam-subject @changePic="changePic" @changeSubject="changeSubject" @onAnswerError="onAnswerError" />
+        <x-exam-subject ref="exam" @changePic="changePic" @changeSubject="changeSubject"
+          @onAnswerError="onAnswerError" />
       </a-layout-content>
       <div theme="light">
         <x-exam-board :currentSubject="currentSubject" :errorSubjects="errorSubjects" />
@@ -21,6 +22,7 @@
 const src = ref('')
 const currentSubject = ref(0)
 const errorSubjects = ref<number[]>([])
+const exam = ref()
 const changePic = (e: string) => {
   src.value = e
 }
@@ -31,6 +33,7 @@ const onAnswerError = (e: number) => {
   errorSubjects.value.push(e + 1)
 }
 const onFinish = () => {
+  exam.value.submitExam()
   console.log('结束作答');
 }
 </script>
