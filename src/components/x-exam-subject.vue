@@ -41,14 +41,17 @@ import { showConfirm, showInfo } from '../utils/dialogUtils';
 const emits = defineEmits(['changePic', 'changeSubject', 'onAnswerError'])
 const currentSubject = ref(0)
 const currentAnswer = ref('')
-const subjects = getSubjects()
+const subjects = ref<Subject[]>([])
 const subject = computed(() => {
-    const subject = subjects[currentSubject.value]
+    const subject = subjects.value[currentSubject.value] || {
+        title: '默认标题',
+        pic: ''
+    }
     emits('changePic', subject.pic)
     return subject
 })
 const disabled = computed(() => {
-    return (increment: number) => currentSubject.value == Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
+    return (increment: number) => currentSubject.value == Math.max(0, Math.min(subjects.value.length - 1, currentSubject.value + increment))
 })
 const isCorrect = computed(() => (subject: Subject) => subject.yourAnswer == subject.correct)
 const changeSubject = (increment: number) => {
@@ -56,11 +59,11 @@ const changeSubject = (increment: number) => {
     const question = subject.value
     if (question.yourAnswer && !(question.yourAnswer == question.correct)) emits('onAnswerError', currentSubject.value)
     // currentSubject 不能小于 0, 不能大于 subjects.length
-    currentSubject.value = Math.max(0, Math.min(subjects.length - 1, currentSubject.value + increment))
+    currentSubject.value = Math.max(0, Math.min(subjects.value.length - 1, currentSubject.value + increment))
     currentAnswer.value = subject.value.yourAnswer || ''
     emits('changeSubject', currentSubject.value)
 }
-const countScores = () => subjects.reduce((prev: number, curr: Subject): number => {
+const countScores = () => subjects.value.reduce((prev: number, curr: Subject): number => {
     return prev += curr.yourAnswer == curr.correct ? 2 : 0
 }, 0)
 const submitExam = () => {
@@ -68,6 +71,7 @@ const submitExam = () => {
         showInfo('作答结束!', `您的成绩为 ${countScores()} 分, 满分 100 分, 90 分 及格`, () => window.location.reload())
     })
 }
+getSubjects().then((data) => subjects.value = data)
 defineExpose({ submitExam })
 </script>
 
