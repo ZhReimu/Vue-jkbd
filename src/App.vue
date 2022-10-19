@@ -1,8 +1,8 @@
 <template>
   <a-layout>
     <a-layout>
-      <a-layout-sider theme="light">
-        <x-exam-info></x-exam-info>
+      <a-layout-sider theme="light" :width="240">
+        <x-exam-info />
       </a-layout-sider>
       <a-layout-content>
         <x-exam-subject @changePic="changePic" @changeSubject="changeSubject" />

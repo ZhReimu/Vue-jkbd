@@ -41,8 +41,9 @@ const cellClass = computed(() => {
 }
 
 .answer-info {
-    width: 500px;
+    width: 450px;
     min-height: 422px;
+    height: 100%;
 }
 
 .cell {
