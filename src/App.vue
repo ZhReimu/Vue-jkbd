@@ -42,7 +42,7 @@ const onAnswerCorrect = (e: number) => {
   correctSubjects.value.push(e + 1)
 }
 const onFinish = () => {
-  exam.value.submitExam()
+  exam.value.onSubmitExam()
   console.log('结束作答');
 }
 const cellClick = (e: number) => {

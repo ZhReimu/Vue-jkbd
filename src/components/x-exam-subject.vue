@@ -80,10 +80,11 @@ const changeSubject = (increment: number) => {
 const countScores = () => subjects.value.reduce((prev: number, curr: Subject): number => {
     return prev += curr.yourAnswer == curr.correct ? 2 : 0
 }, 0)
+const onSubmitExam = () => {
+    showInfo('作答结束!', `您的成绩为 ${countScores()} 分, 满分 100 分, 90 分 及格`, () => window.location.reload())
+}
 const submitExam = () => {
-    showConfirm('真的要交卷🐎?', '交卷之后不可作答', () => {
-        showInfo('作答结束!', `您的成绩为 ${countScores()} 分, 满分 100 分, 90 分 及格`, () => window.location.reload())
-    })
+    showConfirm('真的要交卷🐎?', '交卷之后不可作答', onSubmitExam)
 }
 const doAnswer = (answer: Answer) => {
     switch (subject.value.type) {
@@ -115,7 +116,7 @@ const onChangeSubject = (target: number) => {
     emits('changeSubject', currentSubject.value)
 }
 getSubjects().then((data) => subjects.value = data)
-defineExpose({ submitExam, onChangeSubject })
+defineExpose({ onSubmitExam, onChangeSubject })
 </script>
 
 <style scoped>
