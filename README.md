@@ -24,6 +24,7 @@ data 对象:
 |   qid    | number | 本次考试的题目 id | 本题目在本次考试中的 id |
 |  title   | string | 题目              | 题目名                  |
 |   type   | number | 题目类型          | 题目类型                |
+|   pic    | string | 题目所需的图片     | 图片 url                |
 
 answer 对象: 
 
