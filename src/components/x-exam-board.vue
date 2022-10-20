@@ -22,6 +22,10 @@ const props = defineProps({
     errorSubjects: {
         type: Array<Number>,
         require: true
+    },
+    correctSubjects: {
+        type: Array<Number>,
+        require: true
     }
 })
 
@@ -38,8 +42,10 @@ const cellClass = computed(() => {
         var css = 'cell '
         //当前正在答的题目的样式
         if (currentId == cellId) css += 'current '
-        // @ts-ignore
+        // @ts-ignore 错误的题目样式
         if (props.errorSubjects.includes(cellId) && currentId != cellId) css += 'error '
+        // @ts-ignore 正确的题目样式
+        if (props.correctSubjects.includes(cellId) && currentId != cellId) css += 'correct '
         return css
     }
 })
@@ -65,6 +71,10 @@ const cellClass = computed(() => {
 
 .error {
     background-color: red;
+}
+
+.correct {
+    background-color: green;
 }
 
 .answer-board {

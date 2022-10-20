@@ -7,10 +7,11 @@
         </a-layout-sider>
         <a-layout-content>
           <x-exam-subject ref="exam" @changePic="changePic" @changeSubject="changeSubject"
-            @onAnswerError="onAnswerError" />
+            @onAnswerError="onAnswerError" @onAnswerCorrect="onAnswerCorrect" />
         </a-layout-content>
         <div theme="light">
-          <x-exam-board :currentSubject="currentSubject" :errorSubjects="errorSubjects" />
+          <x-exam-board :currentSubject="currentSubject" :errorSubjects="errorSubjects"
+            :correctSubjects="correctSubjects" />
         </div>
       </a-layout>
       <a-layout>
@@ -26,6 +27,7 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN';
 const src = ref('')
 const currentSubject = ref(0)
 const errorSubjects = ref<number[]>([])
+const correctSubjects = ref<number[]>([])
 const exam = ref()
 const changePic = (e: string) => {
   src.value = e
@@ -35,6 +37,9 @@ const changeSubject = (e: number) => {
 }
 const onAnswerError = (e: number) => {
   errorSubjects.value.push(e + 1)
+}
+const onAnswerCorrect = (e: number) => {
+  correctSubjects.value.push(e + 1)
 }
 const onFinish = () => {
   exam.value.submitExam()

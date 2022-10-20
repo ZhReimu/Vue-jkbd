@@ -38,7 +38,7 @@ import { Answer, Subject } from '../types/x-exam';
 import { SubjectType } from '../types/x-exam-enums'
 import { showConfirm, showInfo } from '../utils/dialogUtils';
 
-const emits = defineEmits(['changePic', 'changeSubject', 'onAnswerError'])
+const emits = defineEmits(['changePic', 'changeSubject', 'onAnswerError', 'onAnswerCorrect'])
 const currentSubject = ref(0)
 const currentAnswer = ref('')
 const subjects = ref<Subject[]>([])
@@ -57,7 +57,11 @@ const isCorrect = computed(() => (subject: Subject) => subject.yourAnswer == sub
 const changeSubject = (increment: number) => {
     subject.value.yourAnswer = currentAnswer.value
     const question = subject.value
-    if (question.yourAnswer && !(question.yourAnswer == question.correct)) emits('onAnswerError', currentSubject.value)
+    if (question.yourAnswer) {
+        if (!(question.yourAnswer == question.correct)) emits('onAnswerError', currentSubject.value)
+        else emits('onAnswerCorrect', currentSubject.value)
+    }
+
     // currentSubject 不能小于 0, 不能大于 subjects.length
     currentSubject.value = Math.max(0, Math.min(subjects.value.length - 1, currentSubject.value + increment))
     currentAnswer.value = subject.value.yourAnswer || ''
