@@ -120,12 +120,13 @@ defineExpose({ submitExam, onChangeSubject })
 
 <style scoped>
 .exam-subject {
+    max-height: 540px;
     height: 100%;
 }
 
 .selections {
     margin-top: 20px;
-    font-size: 26px;
+    font-size: 20px;
     font-weight: bold;
     min-height: 250px;
 }
@@ -149,7 +150,7 @@ defineExpose({ submitExam, onChangeSubject })
 .your-answer,
 .x-header,
 .result-hint {
-    font-size: 26px;
+    font-size: 20px;
     font-weight: bold;
 }
 
