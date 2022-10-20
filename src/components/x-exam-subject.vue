@@ -15,7 +15,7 @@
                 <div class="selection" v-if="!subject.yourAnswer">
                     <span style="margin-right: 10px;">选择: </span>
                     <a-button v-for="answer in subject.answers" :key="answer.id" type="primary"
-                        @click="currentAnswer=answer.id">{{answer.id}}
+                        @click="doAnswer(answer)">{{answer.id}}
                     </a-button>
                 </div>
                 <div :class="'result-hint ' + (isCorrect(subject) ? '' : 'error-hint')" v-else>
@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { getSubjects } from '../api/api';
-import { Subject } from '../types/x-exam';
+import { Answer, Subject } from '../types/x-exam';
 import { SubjectType } from '../types/x-exam-enums'
 import { showConfirm, showInfo } from '../utils/dialogUtils';
 
@@ -70,6 +70,16 @@ const submitExam = () => {
     showConfirm('真的要交卷🐎?', '交卷之后不可作答', () => {
         showInfo('作答结束!', `您的成绩为 ${countScores()} 分, 满分 100 分, 90 分 及格`, () => window.location.reload())
     })
+}
+const doAnswer = (answer: Answer) => {
+    switch (subject.value.type) {
+        case SubjectType.JUDGE:
+        case SubjectType.SELECTION:
+            currentAnswer.value = answer.id
+            break
+        case SubjectType.MULT_SELECTION:
+            currentAnswer.value += answer.id
+    }
 }
 getSubjects().then((data) => subjects.value = data)
 defineExpose({ submitExam })
