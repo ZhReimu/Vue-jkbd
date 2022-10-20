@@ -23,7 +23,6 @@
                 </div>
             </div>
             <div class="operations">
-                <a-button type="primary">暂停</a-button>
                 <a-button type="primary" :disabled="disabled(-1)" @click="changeSubject(-1)">上一题</a-button>
                 <a-button type="primary" :disabled="disabled(1)" @click="changeSubject(1)">下一题</a-button>
                 <a-button type="primary" @click="submitExam">交卷</a-button>
