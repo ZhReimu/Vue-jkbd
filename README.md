@@ -1,16 +1,42 @@
-# Vue 3 + TypeScript + Vite
+# Vue3 驾考宝典
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+使用 Vue3 + ts + Ant Design of Vue + Axios 做的在线刷题工具
 
-## Recommended IDE Setup
+理论上来说, 给出形如 `src/api/api.ts` 里的 `mockData` 的数据就可以跑辣
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+根对象: 
 
-## Type Support For `.vue` Imports in TS
+|  字段   |  类型   |       内容       | 备注                |
+| :-----: | :-----: | :--------------: | ------------------- |
+|  code   | number  |      返回值      | 2000 成功, 其它失败 |
+| message | string  |     错误消息     | 一眼顶针            |
+| success | boolean | 本次操作是否成功 | 一眼顶针            |
+|  data   | object  |     题目内容     |                     |
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+data 对象:
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+|   字段   | 类型   | 内容              | 备注                    |
+| :------: | ------ | ----------------- | ----------------------- |
+| answers  | array  | 答案选项          | 见 answer 对象          |
+| comments | string | 答案说明          |                         |
+| correct  | string | 正确答案          |                         |
+|    id    | number | 题目 id           | 本题目在数据库中的 id   |
+|   qid    | number | 本次考试的题目 id | 本题目在本次考试中的 id |
+|  title   | string | 题目              | 题目名                  |
+|   type   | number | 题目类型          | 题目类型                |
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+answer 对象: 
+
+| 字段  | 类型   | 内容     | 备注                    |
+| :---: | ------ | -------- | ----------------------- |
+|  id   | string | 选项 id  | 形如 A、B、C、D 或 √、× |
+| value | string | 选项内容 | 选项本体                |
+
+type 的可选值: 
+
+| 字段 |  类型  |  内容  | 备注 |
+| :--: | :----: | :----: | :--: |
+|  0   | number | 判断题 |      |
+|  1   | number | 单选题 |      |
+|  2   | number | 多选题 |      |
+
