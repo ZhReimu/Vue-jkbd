@@ -11,6 +11,7 @@ specifiers:
   unplugin-auto-import: ^0.11.2
   unplugin-vue-components: ^0.22.8
   vite: ^3.1.0
+  vite-plugin-singlefile: ^0.12.2
   vue: ^3.2.37
   vue-tsc: ^0.40.4
 
@@ -28,6 +29,7 @@ devDependencies:
   typescript: registry.npmmirror.com/typescript/4.8.4
   unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.11.2
   vite: registry.npmmirror.com/vite/3.1.8
+  vite-plugin-singlefile: registry.npmmirror.com/vite-plugin-singlefile/0.12.2_vite@3.1.8
   vue-tsc: registry.npmmirror.com/vue-tsc/0.40.13_typescript@4.8.4
 
 packages:
@@ -1336,6 +1338,19 @@ packages:
       chokidar: registry.npmmirror.com/chokidar/3.5.3
       webpack-sources: registry.npmmirror.com/webpack-sources/3.2.3
       webpack-virtual-modules: registry.npmmirror.com/webpack-virtual-modules/0.4.5
+
+  registry.npmmirror.com/vite-plugin-singlefile/0.12.2_vite@3.1.8:
+    resolution: {integrity: sha512-wMFh/o6g+CcnPBhrv5J7wuOeSUQdcy5JMnGzqtaFq47eJs9MwT+0yoXDsy9YyD6PFarSsqFRYVbrZ8CCq/K2vw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-singlefile/-/vite-plugin-singlefile-0.12.2.tgz}
+    id: registry.npmmirror.com/vite-plugin-singlefile/0.12.2
+    name: vite-plugin-singlefile
+    version: 0.12.2
+    peerDependencies:
+      rollup: ~2.79.1
+      vite: ^3.1.4
+    dependencies:
+      micromatch: registry.npmmirror.com/micromatch/4.0.5
+      vite: registry.npmmirror.com/vite/3.1.8
+    dev: true
 
   registry.npmmirror.com/vite/3.1.8:
     resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.1.8.tgz}

@@ -3,12 +3,13 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import AutoImport from "unplugin-auto-import/vite"
 import Components from 'unplugin-vue-components/vite'
-
+import { viteSingleFile } from "vite-plugin-singlefile"
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    viteSingleFile(),
     AutoImport({
       imports: ["vue", "vue-router"], // 自动导入 vue 和 vue-router 相关函数
       dts: "src/types/auto-import.d.ts" // 生成 auto-import.d.ts 全局声明
