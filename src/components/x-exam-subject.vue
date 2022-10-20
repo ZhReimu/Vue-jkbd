@@ -1,7 +1,7 @@
 <template>
     <a-card class="exam-subject">
-        <div class="header">
-            考试题目
+        <div class="x-header">
+            {{type4Show}}
         </div>
         <div class="subject">
             <div class="subject-title">{{`${currentSubject + 1}. ${subject.title}`}}</div>
@@ -81,6 +81,16 @@ const doAnswer = (answer: Answer) => {
             currentAnswer.value += answer.id
     }
 }
+const type4Show = computed(() => {
+    switch (subject.value.type) {
+        case SubjectType.JUDGE:
+            return "判断题"
+        case SubjectType.SELECTION:
+            return "单选题"
+        case SubjectType.MULT_SELECTION:
+            return "多选题"
+    }
+})
 getSubjects().then((data) => subjects.value = data)
 defineExpose({ submitExam })
 </script>
@@ -114,6 +124,7 @@ defineExpose({ submitExam })
 
 .subject-title,
 .your-answer,
+.x-header,
 .result-hint {
     font-size: 26px;
     font-weight: bold;
