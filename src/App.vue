@@ -11,7 +11,7 @@
         </a-layout-content>
         <div theme="light">
           <x-exam-board :currentSubject="currentSubject" :errorSubjects="errorSubjects"
-            :correctSubjects="correctSubjects" />
+            :correctSubjects="correctSubjects" @cellClick="cellClick" />
         </div>
       </a-layout>
       <a-layout>
@@ -44,6 +44,9 @@ const onAnswerCorrect = (e: number) => {
 const onFinish = () => {
   exam.value.submitExam()
   console.log('结束作答');
+}
+const cellClick = (e: number) => {
+  exam.value.onChangeSubject(e - 1)
 }
 </script>
 

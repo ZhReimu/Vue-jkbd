@@ -110,8 +110,12 @@ const type4Show = computed(() => {
             return "多选题"
     }
 })
+const onChangeSubject = (target: number) => {
+    currentSubject.value = target
+    emits('changeSubject', currentSubject.value)
+}
 getSubjects().then((data) => subjects.value = data)
-defineExpose({ submitExam })
+defineExpose({ submitExam, onChangeSubject })
 </script>
 
 <style scoped>
