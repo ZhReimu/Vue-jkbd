@@ -4,7 +4,7 @@
             考试图片信息
         </div>
         <div class="x-image" v-show="src">
-            <a-image width="500px" :src="src"></a-image>
+            <a-image width="200px" height="200px" :src="src"></a-image>
         </div>
     </a-card>
 </template>
