@@ -1,3 +1,4 @@
+import axios from "axios"
 import { Subject } from "../types/x-exam"
 import { SubjectType } from "../types/x-exam-enums"
 
@@ -53,7 +54,7 @@ const mockData = [
 ]
 
 const getSubjects: () => Promise<Subject[]> = async () => {
-    return mockData
+    return (await axios.get('http://localhost:8099/examQuestions')).data.data
 }
 
 export {

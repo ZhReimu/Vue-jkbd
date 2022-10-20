@@ -1,6 +1,6 @@
 enum SubjectType {
-    SELECTION = 0,
-    JUDGE = 1,
+    JUDGE = 0,
+    SELECTION = 1,
     MULT_SELECTION = 2
 }
 

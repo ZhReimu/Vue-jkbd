@@ -6,7 +6,7 @@
         <div class="subject">
             <div class="subject-title">{{`${currentSubject + 1}. ${subject.title}`}}</div>
             <div class="selections">
-                <div v-if="subject.type === SubjectType.SELECTION" v-for="answer in subject.answers" :key="answer.id">
+                <div v-if="subject.type !== SubjectType.JUDGE" v-for="answer in subject.answers" :key="answer.id">
                     {{`${answer.id}. ${answer.value}`}}
                 </div>
             </div>
