@@ -54,14 +54,24 @@ const disabled = computed(() => {
     return (increment: number) => currentSubject.value == Math.max(0, Math.min(subjects.value.length - 1, currentSubject.value + increment))
 })
 const isCorrect = computed(() => (subject: Subject) => subject.yourAnswer == subject.correct)
+const strEquals = (a: string, b: string) => {
+    return [...a].sort((a, b) => {
+        return a.localeCompare(b, "zh-CN")
+    }).join("") === [...b].sort((a, b) => {
+        return a.localeCompare(b, "zh-CN")
+    }).join("")
+}
 const changeSubject = (increment: number) => {
     subject.value.yourAnswer = currentAnswer.value
     const question = subject.value
     if (question.yourAnswer) {
-        if (!(question.yourAnswer == question.correct)) emits('onAnswerError', currentSubject.value)
-        else emits('onAnswerCorrect', currentSubject.value)
+        if (!(strEquals(question.yourAnswer, question.correct))) {
+            emits('onAnswerError', currentSubject.value)
+        }
+        else {
+            emits('onAnswerCorrect', currentSubject.value)
+        }
     }
-
     // currentSubject 不能小于 0, 不能大于 subjects.length
     currentSubject.value = Math.max(0, Math.min(subjects.value.length - 1, currentSubject.value + increment))
     currentAnswer.value = subject.value.yourAnswer || ''
