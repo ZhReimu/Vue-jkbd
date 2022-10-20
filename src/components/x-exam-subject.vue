@@ -92,7 +92,12 @@ const doAnswer = (answer: Answer) => {
             currentAnswer.value = answer.id
             break
         case SubjectType.MULT_SELECTION:
-            currentAnswer.value += answer.id
+            const current = [...currentAnswer.value]
+            if (current.includes(answer.id)) {
+                currentAnswer.value = current.filter(it => it !== answer.id).join('')
+            } else {
+                currentAnswer.value += answer.id
+            }
     }
 }
 const type4Show = computed(() => {
