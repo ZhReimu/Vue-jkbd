@@ -23,6 +23,8 @@
                 </div>
             </div>
             <div class="operations">
+                <a-button type="primary" @click="fullScreenHandler">{{fullScreenBtn}}
+                </a-button>
                 <a-button type="primary" :disabled="disabled(-1)" @click="changeSubject(-1)">上一题</a-button>
                 <a-button type="primary" :disabled="disabled(1)" @click="changeSubject(1)">下一题</a-button>
                 <a-button type="primary" @click="submitExam">交卷</a-button>
@@ -36,8 +38,10 @@ import { getSubjects } from '../api/api';
 import { Answer, Subject } from '../types/x-exam';
 import { SubjectType } from '../types/x-exam-enums'
 import { showConfirm, showInfo } from '../utils/dialogUtils';
+import screenfull from 'screenfull';
 
 const emits = defineEmits(['changePic', 'changeSubject', 'onAnswerError', 'onAnswerCorrect'])
+const fullScreenBtn = ref('全屏')
 const currentSubject = ref(0)
 const currentAnswer = ref('')
 const subjects = ref<Subject[]>([])
@@ -49,6 +53,10 @@ const subject = computed(() => {
     emits('changePic', subject.pic)
     return subject
 })
+const fullScreenHandler = () => {
+    screenfull.toggle()
+    fullScreenBtn.value = !screenfull.isFullscreen ? '退出全屏' : '全屏'
+}
 const disabled = computed(() => {
     return (increment: number) => currentSubject.value == Math.max(0, Math.min(subjects.value.length - 1, currentSubject.value + increment))
 })
